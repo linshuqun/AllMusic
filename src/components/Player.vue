@@ -5,7 +5,8 @@
 </template>
 
 <script>
-var howler = require("howler");
+import { Howl, Howler } from "howler";
+
 export default {
   name: "player"
 };

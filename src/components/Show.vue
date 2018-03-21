@@ -66,7 +66,8 @@ export default {
               artists: "",
               mid: "",
               album: "",
-              aid: ""
+              aid: "",
+              cover: ""
             };
             item.name = result[i].name;
             item.artists = result[i].artists
@@ -77,6 +78,7 @@ export default {
             item.mid = result[i].id;
             item.album = result[i].album.name;
             item.aid = result[i].album.id;
+            item.cover = result[i].album.coverSmall;
             _this.items.push(item);
           }
           _this.ok = true;
