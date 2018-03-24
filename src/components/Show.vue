@@ -12,7 +12,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in items" :key="index">
-            <td>{{ item.name }}</td>
+            <td @click="play(item)">{{ item.name }}</td>
             <td>{{ item.artists }}</td>
             <td>{{ item.album }}</td>
           </tr>
@@ -25,21 +25,26 @@
         </ul>
       </nav>
     </div>
+    <player v-if="playing" v-bind:items="songList"></player>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import player from "./Player";
 
 export default {
   name: "show",
   props: ["source", "search", "word"],
+  components: { player },
   data() {
     return {
       items: [],
       ok: false,
+      playing: false,
       page: 1,
-      total: 0
+      total: 0,
+      songList: []
     };
   },
   methods: {
@@ -48,40 +53,44 @@ export default {
       var _this = this;
       _this.items.splice(0, _this.items.length);
       let url =
-        "https://music-api-jwzcyzizya.now.sh/api/search/song/" +
+        "http://localhost:8081/search/song/?&source=" +
         this.source +
-        "?key=" +
+        "&key=" +
         this.word +
         "&page=" +
-        _this.page +
-        "&limit=10";
+        this.page;
       _this.ok = false;
       axios.get(url).then(
         function(res) {
-          _this.total = res.data.total / 10;
-          var result = res.data.songList;
-          for (let i = 0; i < result.length && i < 10; i++) {
-            let item = {
-              name: "",
-              artists: "",
-              mid: "",
-              album: "",
-              aid: "",
-              cover: ""
-            };
-            item.name = result[i].name;
-            item.artists = result[i].artists
-              .map(function(artist, index, array) {
-                return artist.name;
-              })
-              .toString();
-            item.mid = result[i].id;
-            item.album = result[i].album.name;
-            item.aid = result[i].album.id;
-            item.cover = result[i].album.coverSmall;
-            _this.items.push(item);
+          if (res.data.songList) {
+            _this.total = res.data.total / 10;
+            var result = res.data.songList;
+            for (let i = 0; i < result.length; i++) {
+              let item = {
+                name: "",
+                artists: "",
+                mid: "",
+                album: "",
+                aid: "",
+                cover: "",
+                file: ""
+              };
+              item.name = result[i].name;
+              item.artists = result[i].artists
+                .map(function(artist, index, array) {
+                  return artist.name;
+                })
+                .toString();
+              item.mid = result[i].id;
+              item.album = result[i].album.name;
+              item.aid = result[i].album.id;
+              item.cover = result[i].album.coverSmall;
+              if (result[i].file) item.file = result[i].file;
+              _this.items.push(item);
+            }
+            _this.ok = true;
           }
-          _this.ok = true;
+          //console.log(res);
         },
         function(err) {
           console.log(err);
@@ -99,6 +108,38 @@ export default {
         this.page -= 1;
         this.getItems();
       }
+    },
+    play: function(item) {
+      var that = this;
+      let song = {
+        title: "",
+        author: "",
+        url: "",
+        pic: ""
+      };
+      song.title = item.name;
+      song.author = item.artists;
+      song.pic = item.cover;
+      if (item.file != "") {
+        song.url = item.file;
+        console.log(song);
+      } else {
+        let url =
+          "http://localhost:8081/get/song/?source=" +
+          this.source +
+          "&id=" +
+          item.mid;
+        axios.get(url).then(
+          function(res) {
+            song.url = res.url;
+            console.log(song);
+          },
+          function(err) {
+            console.log(err);
+          }
+        );
+      }
+      that.playing = true;
     }
   },
   watch: {

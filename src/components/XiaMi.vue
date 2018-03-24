@@ -6,7 +6,6 @@
 
 <script>
 import show from "./Show.vue"
-import player from "./Player"
 
 export default {
   name: "XiaMi",
