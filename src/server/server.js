@@ -8,6 +8,7 @@ app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header("Content-Type", "application/json;charset=utf-8");
     next();
 });
 // 搜索歌曲
@@ -23,7 +24,7 @@ app.get('/search/song', function (req, res) {
         page: _page
     }).then(_res => {
         res.send(_res);
-        console.log('success');
+        console.log('search song');
     }).catch(err => console.log(err));
 });
 // 根据歌曲id获得歌曲
@@ -35,7 +36,10 @@ app.get('/get/song', function (req, res) {
     musicAPI.getSong(_source, {
         id: _id,
         raw: false
-    }).then(_res => res.send(_res)).catch(err => console.log(err));
+    }).then(_res => {
+        res.send(_res);
+        console.log('get song')
+    }).catch(err => console.log(err));
 });
 
 app.listen(8081, function () {

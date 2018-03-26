@@ -25,26 +25,21 @@
         </ul>
       </nav>
     </div>
-    <player v-if="playing" v-bind:items="songList"></player>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import player from "./Player";
 
 export default {
   name: "show",
   props: ["source", "search", "word"],
-  components: { player },
   data() {
     return {
       items: [],
       ok: false,
-      playing: false,
       page: 1,
-      total: 0,
-      songList: []
+      total: 0
     };
   },
   methods: {
@@ -114,32 +109,32 @@ export default {
       let song = {
         title: "",
         author: "",
-        url: "",
+        src: "",
         pic: ""
       };
       song.title = item.name;
       song.author = item.artists;
       song.pic = item.cover;
       if (item.file != "") {
-        song.url = item.file;
+        song.src = item.file;
         console.log(song);
       } else {
         let url =
           "http://localhost:8081/get/song/?source=" +
-          this.source +
+          that.source +
           "&id=" +
           item.mid;
         axios.get(url).then(
           function(res) {
-            song.url = res.url;
+            song.src = res.data.url;
             console.log(song);
+            that.$emit('playSong', song);
           },
           function(err) {
             console.log(err);
           }
         );
       }
-      that.playing = true;
     }
   },
   watch: {
