@@ -38,10 +38,20 @@ app.get('/get/song', function (req, res) {
         raw: false
     }).then(_res => {
         res.send(_res);
-        console.log('get song')
+        console.log('get song');
+    }).catch(err => console.log(err));
+});
+// 呈现首页歌单
+app.get('/suggest', function (req, res) {
+    musicAPI.getSuggestSongs('all', {
+        limit: 10,
+        raw: false
+    }).then(_res => {
+        res.send(_res);
+        console.log('suggest songs');
     }).catch(err => console.log(err));
 });
 
 app.listen(8081, function () {
-    console.log('example app listening on port 8081');
+    console.log('all music app listening on port 8081');
 })
