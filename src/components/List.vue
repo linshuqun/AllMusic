@@ -1,7 +1,7 @@
 <template>
   <div>
     <img src="../assets/loading.gif" width="20px" height="20px" v-if="waiting">
-    <div class="panel panel-success" v-if="!waiting">
+    <div class="panel panel-info" v-if="!waiting">
       <div class="panel-heading">
         <h3 class="panel-title">推荐歌曲</h3>
       </div>
@@ -60,8 +60,9 @@ export default {
             .toString();
           song.pic = result[i].album.coverSmall;
           song.src = result[i].file;
-          song.lrc = result[i].lyric.lyricFile;
+          //song.lrc = result[i].lyric.lyricFile;
           //song.lrc = "http://s.gecimi.com/lrc/344/34435/3443588.lrc";
+          //console.log(song);
           that.songList.push(song);
         }
         that.waiting = false;
@@ -74,7 +75,25 @@ export default {
   methods: {
     play: function(song) {
       console.log(song);
-      this.$emit("addSongToList", song);
+      var that = this;
+      let url =
+        "http://localhost:8081/get/lyric?title=" +
+        song.title +
+        "&artists=" +
+        song.author;
+      axios.get(url).then(
+        function(res) {
+          console.log(res.data);
+          song.lrc = res.data;
+          that.$emit("addSongToList", song);
+        },
+        function(err) {
+          console.log(err);
+          song.lrc = '未找到歌词';
+          that.$emit("addSongToList", song);
+        }
+      );
+      //this.$emit("addSongToList", song);
     }
   }
 };

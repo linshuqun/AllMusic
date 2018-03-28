@@ -39,7 +39,8 @@ export default {
       items: [],
       ok: false,
       page: 1,
-      total: 0
+      total: 0,
+      success: 0
     };
   },
   methods: {
@@ -66,7 +67,7 @@ export default {
                 artists: "",
                 mid: "",
                 album: "",
-                aid: "",
+                //aid: "",
                 cover: "",
                 file: ""
               };
@@ -78,14 +79,13 @@ export default {
                 .toString();
               item.mid = result[i].id;
               item.album = result[i].album.name;
-              item.aid = result[i].album.id;
+              //item.aid = result[i].album.id;
               item.cover = result[i].album.coverSmall;
               if (result[i].file) item.file = result[i].file;
               _this.items.push(item);
             }
             _this.ok = true;
           }
-          //console.log(res);
         },
         function(err) {
           console.log(err);
@@ -110,14 +110,15 @@ export default {
         title: "",
         author: "",
         src: "",
-        pic: ""
+        pic: "",
+        lrc: ""
       };
       song.title = item.name;
       song.author = item.artists;
       song.pic = item.cover;
       if (item.file != "") {
         song.src = item.file;
-        console.log(song);
+        //console.log(song);
       } else {
         let url =
           "http://localhost:8081/get/song/?source=" +
@@ -127,14 +128,37 @@ export default {
         axios.get(url).then(
           function(res) {
             song.src = res.data.url;
-            console.log(song);
-            that.$emit('playSong', song);
+            that.success += 1;
+            that.ready(song);
           },
           function(err) {
             console.log(err);
+            //that.ready(song);
           }
         );
       }
+
+      let lyricUrl =
+        "http://localhost:8081/get/lyric/?&title=" +
+        song.title +
+        "&artists=" +
+        song.author;
+      axios.get(lyricUrl).then(
+        function(res) {
+          song.lrc = res.data;
+          that.success += 1;
+          that.ready(song);
+        },
+        function(err) {
+          //item.lrc = '未找到歌词';
+          console.log(err);
+          //that.ready(song);
+        }
+      );
+    },
+    ready: function(song) {
+      if (this.success != 0 && this.success % 2 == 0)
+      this.$emit("playSong", song);
     }
   },
   watch: {

@@ -1,9 +1,9 @@
 const express = require('express');
 const musicAPI = require('music-api');
 const app = express();
-
+const lyric = require('./lyric.js');
 // 允许跨域
-app.all('*', function(req, res, next) {
+app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -51,7 +51,18 @@ app.get('/suggest', function (req, res) {
         console.log('suggest songs');
     }).catch(err => console.log(err));
 });
-
+// 获取歌词
+app.get('/get/lyric', function (req, res) {
+    let title = req.query.title;
+    let artists = req.query.artists;
+    lyric.lyrics(title, artists).then(_res => {
+        res.send(_res);
+        console.log('get lyric');
+    }).catch(err => {
+        res.send('未找到歌词');
+        console.log(err);
+    })
+});
 app.listen(8081, function () {
     console.log('all music app listening on port 8081');
 })

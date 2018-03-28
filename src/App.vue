@@ -30,7 +30,7 @@
     </div>
 
     <div class="col-md-6 col-md-offset-3">
-      <aplayer :autoplay="flag" :controls="true" :list="songList" :music="songList[current]" :showLrc="true" v-if="flag" ref="player"/>
+      <aplayer :autoplay="flag" :controls="true" :list="songList" :music="songList[current]" :showLrc="true" theme='#337ab7' v-if="flag" ref="player"/>
     </div>
   </div>
 </template>
@@ -63,7 +63,10 @@ export default {
         this.msg = eval("'" + encodeURI(this.key) + "'");
         console.log(this.msg);
         this.check += 1;
-        if (this.check == 1) this.show = true;
+        if (this.check == 1) {
+          this.show = true;
+          this.$router.push({ path: `/netease` });
+        }
       }
     },
     playCurrentMusic(song) {
