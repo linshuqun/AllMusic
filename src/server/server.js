@@ -53,8 +53,11 @@ app.get('/suggest', function (req, res) {
 });
 // 获取歌词
 app.get('/get/lyric', function (req, res) {
+    // 歌曲名
     let title = req.query.title;
+    // 歌手名
     let artists = req.query.artists;
+    // 向网易云发起真正的请求
     lyric.lyrics(title, artists).then(_res => {
         res.send(_res);
         console.log('get lyric');

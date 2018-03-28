@@ -36,11 +36,11 @@ export default {
   props: ["source", "search", "word"],
   data() {
     return {
-      items: [],
-      ok: false,
-      page: 1,
-      total: 0,
-      success: 0
+      items: [], // 用于保存获得的歌曲信息
+      ok: false, // 判断歌曲信息是否可以展示
+      page: 1,   // 当前页
+      total: 0,  // 返回信息中的歌曲总数
+      success: 0 // 判断是否可以触发事件，传递歌曲对象
     };
   },
   methods: {
@@ -56,6 +56,7 @@ export default {
         "&page=" +
         this.page;
       _this.ok = false;
+      // 向本地服务器发送请求，根据关键词获得歌曲信息
       axios.get(url).then(
         function(res) {
           if (res.data.songList) {
@@ -63,13 +64,13 @@ export default {
             var result = res.data.songList;
             for (let i = 0; i < result.length; i++) {
               let item = {
-                name: "",
-                artists: "",
-                mid: "",
-                album: "",
+                name: "",     // 歌曲名
+                artists: "",  // 歌手名
+                mid: "",      // 歌曲id
+                album: "",    // 专辑名
                 //aid: "",
-                cover: "",
-                file: ""
+                cover: "",    // 封面路径
+                file: ""      // 歌曲的真实url 虾米用
               };
               item.name = result[i].name;
               item.artists = result[i].artists
@@ -81,6 +82,7 @@ export default {
               item.album = result[i].album.name;
               //item.aid = result[i].album.id;
               item.cover = result[i].album.coverSmall;
+              // 如果返回信息存在file属性，则直接保留
               if (result[i].file) item.file = result[i].file;
               _this.items.push(item);
             }
@@ -92,18 +94,21 @@ export default {
         }
       );
     },
+    // 下一页
     nextPage: function() {
       if (this.page + 1 <= this.total) {
         this.page += 1;
         this.getItems();
       }
     },
+    // 上一页
     previousPage: function() {
       if (this.page - 1 >= 1) {
         this.page -= 1;
         this.getItems();
       }
     },
+    // 播放歌曲，出发事件，向上层传递对象
     play: function(item) {
       var that = this;
       let song = {
@@ -116,9 +121,9 @@ export default {
       song.title = item.name;
       song.author = item.artists;
       song.pic = item.cover;
+      // 如果来源是虾米的话，直接使用file属性，否则再次发起请求，根据mid获得真实url
       if (item.file != "") {
         song.src = item.file;
-        //console.log(song);
       } else {
         let url =
           "http://localhost:8081/get/song/?source=" +
@@ -133,11 +138,10 @@ export default {
           },
           function(err) {
             console.log(err);
-            //that.ready(song);
           }
         );
       }
-
+      // 根据歌曲名与歌手获得歌词
       let lyricUrl =
         "http://localhost:8081/get/lyric/?&title=" +
         song.title +
@@ -152,13 +156,13 @@ export default {
         function(err) {
           //item.lrc = '未找到歌词';
           console.log(err);
-          //that.ready(song);
         }
       );
     },
+    // 当真实url与歌词都获得时，触发事件，将歌曲对象传递给上层，用以播放
     ready: function(song) {
       if (this.success != 0 && this.success % 2 == 0)
-      this.$emit("playSong", song);
+        this.$emit("playSong", song);
     }
   },
   watch: {

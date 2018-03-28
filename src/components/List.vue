@@ -46,11 +46,11 @@ export default {
         for (let i = 0; i < 10; i++) {
           // 每首歌包含的信息
           let song = {
-            title: "",
-            author: "",
-            src: "",
-            pic: "",
-            lrc: ""
+            title: "",    // 歌曲名
+            author: "",   // 歌手名
+            src: "",      // 歌曲来源
+            pic: "",      // 封面来源
+            lrc: ""       // 歌词
           };
           song.title = result[i].name;
           song.author = result[i].artists
@@ -60,11 +60,9 @@ export default {
             .toString();
           song.pic = result[i].album.coverSmall;
           song.src = result[i].file;
-          //song.lrc = result[i].lyric.lyricFile;
-          //song.lrc = "http://s.gecimi.com/lrc/344/34435/3443588.lrc";
-          //console.log(song);
           that.songList.push(song);
         }
+        // 取消等待图片的显示
         that.waiting = false;
       },
       function(err) {
@@ -74,8 +72,8 @@ export default {
   },
   methods: {
     play: function(song) {
-      console.log(song);
       var that = this;
+      // 根据歌曲名与歌手名查询歌词
       let url =
         "http://localhost:8081/get/lyric?title=" +
         song.title +
@@ -93,7 +91,6 @@ export default {
           that.$emit("addSongToList", song);
         }
       );
-      //this.$emit("addSongToList", song);
     }
   }
 };

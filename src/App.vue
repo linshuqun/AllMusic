@@ -44,14 +44,14 @@ export default {
   data() {
     return {
       source: "All Music",
-      msg: "",
-      key: "",
-      check: 0,
-      songList: [],
-      current: 0,
-      flag: false,
-      warning: false,
-      show: false
+      msg: "",              // 将key转换成unicode形式以便搜索
+      key: "",              // 输入框中的字符
+      check: 0,             // 判断是否要搜索
+      songList: [],         // 播放列表
+      current: 0,           // 当前播放歌曲的索引
+      flag: false,          // 是否要显示播放控制组件
+      warning: false,       // 是否要显示警告信息
+      show: false           // 是否要显示来源标签
     };
   },
   methods: {
@@ -60,19 +60,25 @@ export default {
         this.warning = true;
       } else {
         this.author = "";
+        // 将字符转换成unicode的形式
         this.msg = eval("'" + encodeURI(this.key) + "'");
-        console.log(this.msg);
         this.check += 1;
+        // 若是第一次搜索
         if (this.check == 1) {
+          // 显示来源标签
           this.show = true;
+          // 跳转路由，显示网易云组件
           this.$router.push({ path: `/netease` });
         }
       }
     },
     playCurrentMusic(song) {
+      // 往歌曲列表中添加点击歌曲
       this.songList.push(song);
+      // 当前播放歌曲的索引指向新添加的歌曲
       this.current = this.songList.length - 1;
       this.flag = true;
+      // 当歌曲不止一首时，防止自动播放失效
       if (this.current > 0) this.$refs.player.audio.autoplay = true;
     }
   },
@@ -93,7 +99,6 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*text-align: center;*/
   color: #2c3e50;
   height: auto;
 }
