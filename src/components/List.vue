@@ -3,7 +3,7 @@
     <img src="../assets/loading.gif" width="20px" height="20px" v-if="waiting">
     <div class="panel panel-info" v-if="!waiting">
       <div class="panel-heading">
-        <h3 class="panel-title">推荐歌曲</h3>
+        <h3 class="panel-title">热门歌曲</h3>
       </div>
       <div class="panel-body">
         <table class="table">
