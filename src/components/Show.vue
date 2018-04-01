@@ -124,6 +124,9 @@ export default {
       // 如果来源是虾米的话，直接使用file属性，否则再次发起请求，根据mid获得真实url
       if (item.file != "") {
         song.src = item.file;
+        that.success += 1;
+        console.log(that.success);
+        that.ready(song);
       } else {
         let url =
           "http://localhost:8081/get/song/?source=" +
@@ -132,8 +135,12 @@ export default {
           item.mid;
         axios.get(url).then(
           function(res) {
-            song.src = res.data.url;
+            console.log(res.data);
+            if (res.data.success == false) song.src = false;
+            else song.src = res.data.url;
             that.success += 1;
+            console.log('get song');
+            console.log(that.success);
             that.ready(song);
           },
           function(err) {
@@ -151,6 +158,8 @@ export default {
         function(res) {
           song.lrc = res.data;
           that.success += 1;
+          console.log('get lyric');
+          console.log(that.success);
           that.ready(song);
         },
         function(err) {

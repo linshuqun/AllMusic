@@ -25,7 +25,10 @@ app.get('/search/song', function (req, res) {
     }).then(_res => {
         res.send(_res);
         console.log('search song');
-    }).catch(err => console.log(err));
+    }).catch(err => {
+        res.send(err);
+        console.log(err);
+    });
 });
 // 根据歌曲id获得歌曲
 app.get('/get/song', function (req, res) {
@@ -39,7 +42,10 @@ app.get('/get/song', function (req, res) {
     }).then(_res => {
         res.send(_res);
         console.log('get song');
-    }).catch(err => console.log(err));
+    }).catch(err => {
+        res.send(err);
+        console.log(err);
+    });
 });
 // 呈现首页歌单
 app.get('/suggest', function (req, res) {
@@ -49,7 +55,10 @@ app.get('/suggest', function (req, res) {
     }).then(_res => {
         res.send(_res);
         console.log('suggest songs');
-    }).catch(err => console.log(err));
+    }).catch(err => {
+        res.send(err);
+        console.log(err);
+    });
 });
 // 获取歌词
 app.get('/get/lyric', function (req, res) {
@@ -62,7 +71,7 @@ app.get('/get/lyric', function (req, res) {
         res.send(_res);
         console.log('get lyric');
     }).catch(err => {
-        res.send('未找到歌词');
+        res.send(err);
         console.log(err);
     })
 });

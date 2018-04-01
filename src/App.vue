@@ -2,7 +2,8 @@
   <div>
     <div class="center">
       <h2>{{ source }}</h2>
-      <p v-if="warning" ref="p"><span class="label label-danger">请输入搜索关键词</span></p>
+      <p v-if="warning"><span class="label label-danger">请输入搜索关键词</span></p>
+      <p v-if="copyright"><span class="label label-danger">未提供版权无法播放</span></p>
     </div>
 
     <div class="col-md-6 col-md-offset-3">
@@ -51,7 +52,8 @@ export default {
       current: 0,           // 当前播放歌曲的索引
       flag: false,          // 是否要显示播放控制组件
       warning: false,       // 是否要显示警告信息
-      show: false           // 是否要显示来源标签
+      show: false,          // 是否要显示来源标签
+      copyright: false      // 是否要显示版权信息
     };
   },
   methods: {
@@ -73,6 +75,17 @@ export default {
       }
     },
     playCurrentMusic(song) {
+      console.log(song);
+      var that = this;
+      // 判断歌曲是否能够播放
+      if (song.src == false) {
+        // 显示提示信息
+        this.copyright = true;
+        setTimeout(() => {
+          that.copyright = false;
+        }, 3000);
+        return;
+      }
       // 往歌曲列表中添加点击歌曲
       this.songList.push(song);
       // 当前播放歌曲的索引指向新添加的歌曲
