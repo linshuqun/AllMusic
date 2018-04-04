@@ -31,7 +31,7 @@
     </div>
 
     <div class="col-md-6 col-md-offset-3">
-      <aplayer :autoplay="flag" :controls="true" :list="songList" :music="songList[current]" :showLrc="true" theme='#337ab7' v-if="flag" ref="player"/>
+      <aplayer :autoplay="true" :controls="true" :list="songList" :music="songList[current]" :showLrc="true" theme='#337ab7' v-if="flag" ref="player"/>
     </div>
   </div>
 </template>
@@ -75,7 +75,6 @@ export default {
       }
     },
     playCurrentMusic(song) {
-      console.log(song);
       var that = this;
       // 判断歌曲是否能够播放
       if (song.src == false) {
