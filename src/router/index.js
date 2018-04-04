@@ -4,7 +4,6 @@ import QQ from '@/components/QQ'
 import XiaMi from '@/components/XiaMi'
 import NetEase from '@/components/NetEase'
 import List from '@/components/List'
-import Login from '@/components/Login'
 
 Vue.use(Router)
 
@@ -29,11 +28,6 @@ export default new Router({
       path: '/netease',
       name: 'NetEase',
       component: NetEase
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
     }
   ]
 })
