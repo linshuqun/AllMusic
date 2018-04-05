@@ -12,9 +12,9 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in items" :key="index">
-            <td @click="play(item)">{{ item.name }}</td>
-            <td>{{ item.artists }}</td>
-            <td>{{ item.album }}</td>
+            <td @dblclick="play(item)">{{ item.name }}</td>
+            <td class="pointer">{{ item.artists }}</td>
+            <td class="pointer">{{ item.album }}</td>
           </tr>
         </tbody>
       </table>
@@ -68,7 +68,7 @@ export default {
                 artists: "",  // 歌手名
                 mid: "",      // 歌曲id
                 album: "",    // 专辑名
-                //aid: "",
+                aid: "",      // 专辑id
                 cover: "",    // 封面路径
                 file: ""      // 歌曲的真实url 虾米用
               };
@@ -80,7 +80,7 @@ export default {
                 .toString();
               item.mid = result[i].id;
               item.album = result[i].album.name;
-              //item.aid = result[i].album.id;
+              item.aid = result[i].album.id;
               item.cover = result[i].album.coverSmall;
               // 如果返回信息存在file属性，则直接保留
               if (result[i].file) item.file = result[i].file;
@@ -206,7 +206,7 @@ a:hover {
   color: #42b983;
   cursor: pointer;
 }
-td:hover {
+.pointer:hover {
   color: #42b983;
   cursor: pointer;
 }
