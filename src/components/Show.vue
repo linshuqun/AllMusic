@@ -13,7 +13,7 @@
         <tbody>
           <tr v-for="(item, index) in items" :key="index">
             <td @dblclick="play(item)">{{ item.name }}</td>
-            <td class="pointer">{{ item.artists }}</td>
+            <td @click="searchArtist(item)" class="pointer">{{ item.artists }}</td>
             <td class="pointer">{{ item.album }}</td>
           </tr>
         </tbody>
@@ -93,6 +93,10 @@ export default {
           console.log(err);
         }
       );
+    },
+    // 搜索歌手
+    searchArtist: function(item) {
+
     },
     // 下一页
     nextPage: function() {
