@@ -12,7 +12,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in items" :key="index">
-            <td @dblclick="play(item)">{{ item.name }}</td>
+            <td @dblclick="play(item)" class="default">{{ item.name }}</td>
             <td @click="searchArtist(item)" class="pointer">{{ item.artists }}</td>
             <td class="pointer">{{ item.album }}</td>
           </tr>
@@ -223,6 +223,9 @@ a:hover {
 .pointer:hover {
   color: #42b983;
   cursor: pointer;
+}
+.default:hover {
+  cursor: default;
 }
 table {
   text-align: center;
