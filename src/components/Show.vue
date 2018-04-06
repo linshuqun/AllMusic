@@ -36,13 +36,13 @@ export default {
   props: ["source", "search", "word"],
   data() {
     return {
-      items: [],   // 用于保存获得的歌曲信息
-      ok: false,   // 判断歌曲信息是否可以展示
-      page: 1,     // 当前页
-      total: 0,    // 返回信息中的歌曲总数
-      success: 0,  // 判断是否可以触发事件，传递歌曲对象
-      artist: "",  // 点击歌手名用于搜索的关键词
-      flag: false  // 判断是否要用新关键词
+      items: [],    // 用于保存获得的歌曲信息
+      ok: false,    // 判断歌曲信息是否可以展示
+      page: 1,      // 当前页
+      total: 0,     // 返回信息中的歌曲总数
+      success: 0,   // 判断是否可以触发事件，传递歌曲对象
+      artist: "",   // 点击歌手名用于搜索的关键词
+      flag1: false  // 判断是否要用新关键词
     };
   },
   methods: {
@@ -52,7 +52,7 @@ export default {
       _this.items.splice(0, _this.items.length);
       let key;
       // 是否用新关键词搜索
-      if (this.flag) key = this.artist;
+      if (this.flag1) key = this.artist;
       else key = this.word;
       let url =
         "http://localhost:8081/search/song/?&source=" +
@@ -102,7 +102,7 @@ export default {
     },
     // 搜索歌手
     searchArtist: function(item) {
-      this.flag = true;
+      this.flag1 = true;
       this.artist = item.artists;
       this.page = 1;
       this.getItems();
