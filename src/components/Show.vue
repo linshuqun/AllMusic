@@ -13,8 +13,8 @@
         <tbody>
           <tr v-for="(item, index) in items" :key="index">
             <td @dblclick="play(item)" class="default">{{ item.name }}</td>
-            <td @click="searchArtist(item)" class="pointer">{{ item.artists }}</td>
-            <td class="pointer">{{ item.album }}</td>
+            <td @click="clickInfor(item.artists)" class="pointer">{{ item.artists }}</td>
+            <td class="pointer" @click="clickInfor(item.album)">{{ item.album }}</td>
           </tr>
         </tbody>
       </table>
@@ -40,9 +40,7 @@ export default {
       ok: false,    // 判断歌曲信息是否可以展示
       page: 1,      // 当前页
       total: 0,     // 返回信息中的歌曲总数
-      success: 0,   // 判断是否可以触发事件，传递歌曲对象
-      artist: "",   // 点击歌手名用于搜索的关键词
-      flag1: false  // 判断是否要用新关键词
+      success: 0    // 判断是否可以触发事件，传递歌曲对象
     };
   },
   methods: {
@@ -51,9 +49,7 @@ export default {
       var _this = this;
       _this.items.splice(0, _this.items.length);
       let key;
-      // 是否用新关键词搜索
-      if (this.flag1) key = this.artist;
-      else key = this.word;
+      key = this.word;
       let url =
         "http://localhost:8081/search/song/?&source=" +
         this.source +
@@ -100,12 +96,9 @@ export default {
         }
       );
     },
-    // 搜索歌手
-    searchArtist: function(item) {
-      this.flag1 = true;
-      this.artist = item.artists;
-      this.page = 1;
-      this.getItems();
+    // 搜索歌手或专辑
+    clickInfor: function(infor) {
+      this.$emit("passInfor", infor);
     },
     // 下一页
     nextPage: function() {

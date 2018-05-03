@@ -1,6 +1,6 @@
 <template>
   <div id="xiami">
-    <show source="netease" v-bind:word="byNetEase" v-bind:search="allSearch" v-on:playSong="addSong"></show>
+    <show source="netease" v-bind:word="byNetEase" v-bind:search="allSearch" v-on:playSong="addSong" v-on:passInfor="getInfor"></show>
   </div>
 </template>
 
@@ -14,6 +14,9 @@ export default {
   methods: {
     addSong(song) {
       this.$emit("addSongToList", song);
+    },
+    getInfor(infor) {
+      this.$emit("transferInfor", infor);
     }
   }
 };

@@ -25,7 +25,7 @@
 
     <div class="col-md-6 col-md-offset-3 center">
       <keep-alive>
-        <router-view v-bind:byQQ="msg" v-bind:byNetEase="msg" v-bind:byXiaMi="msg" v-bind:allSearch="check" v-on:addSongToList="playCurrentMusic">
+        <router-view v-bind:byQQ="msg" v-bind:byNetEase="msg" v-bind:byXiaMi="msg" v-bind:allSearch="check" v-on:addSongToList="playCurrentMusic" v-on:transferInfor="searchInfor">
         </router-view>
       </keep-alive>
     </div>
@@ -73,6 +73,10 @@ export default {
           this.$router.push({ path: `/netease` });
         }
       }
+    },
+    searchInfor(infor) {
+      this.key = infor;
+      this.change();
     },
     playCurrentMusic(song) {
       var that = this;

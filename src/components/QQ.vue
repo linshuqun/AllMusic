@@ -1,6 +1,6 @@
 <template>
   <div id="qq">
-    <show source="qq" v-bind:word="byQQ" v-bind:search="allSearch" v-on:playSong="addSong"></show>
+    <show source="qq" v-bind:word="byQQ" v-bind:search="allSearch" v-on:playSong="addSong" v-on:passInfor="getInfor"></show>
   </div>
 </template>
 
@@ -14,6 +14,9 @@ export default {
   methods: {
     addSong(song) {
       this.$emit("addSongToList", song);
+    },
+    getInfor(infor) {
+      this.$emit("transferInfor", infor);
     }
   }
 };
