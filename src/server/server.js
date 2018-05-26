@@ -16,7 +16,6 @@ app.get('/search/song', function (req, res) {
     let _source = req.query.source;
     let _key = req.query.key;
     let _page = req.query.page;
-
     // 本地服务器发起真正的请求
     musicAPI.searchSong(_source, {
         key: _key,

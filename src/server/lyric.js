@@ -12,12 +12,10 @@ module.exports = {
 			'Referer': LYRICS_API_ORIGIN,
 			'Content-Type': 'application/x-www-form-urlencoded'
 		};
-
 		var wangyiyunAPIs = {
 			search: LYRICS_API_URL + '/search/suggest/web',
 			lyrics: LYRICS_API_URL + '/song/lyric'
 		};
-
 		return request
 			.postAsync({
 				method: 'POST',
