@@ -24,5 +24,5 @@ npm run build --report
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 
-## 一些说明
-利用vue-cli工具创建项目，实现了国内主流音乐平台网易云、QQ、虾米同时在线搜索的功能
+## 数据来源
+调用接口搜索网易云音乐、qq音乐与虾米音乐，接口地址[musicafe音乐咖 — 网易、虾米、QQ音乐一处搞定](https://github.com/LIU9293/musicafe)，特别感谢这个package的作者
